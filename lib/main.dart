@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:re_tetris/view/pages/play.dart';
+import 'package:re_tetris/view/page/play.dart';
 
 void main() => runApp(MyApp());
 
