@@ -1,6 +1,6 @@
 import 'package:re_tetris/domain/model/mino.dart';
 
-abstract class MobilizeMino {
+abstract class IMobilizeMino {
   Mino moveRight(Mino mino);
 
   Mino moveLeft(Mino mino);
