@@ -6,6 +6,4 @@ abstract class IMobilizeMino {
   Mino moveLeft(Mino mino);
 
   Mino down(Mino mino);
-
-  Mino hardDrop(Mino mino);
 }
