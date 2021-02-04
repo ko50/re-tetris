@@ -15,4 +15,16 @@ class Mino {
     required this.type,
     required this.direction,
   });
+
+  Mino.from(Mino mino)
+      : this.blocks = List.generate(
+          mino.blocks.length,
+          (i) => Block.from(mino.blocks[i]),
+        ),
+        this.direction = mino.direction,
+        this.type = mino.type,
+        this.cornerCordinate = Offset(
+          mino.cornerCordinate.dx,
+          mino.cornerCordinate.dy,
+        );
 }
