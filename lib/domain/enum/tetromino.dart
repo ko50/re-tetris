@@ -24,6 +24,25 @@ extension Info on TetroMino {
     }
   }
 
+  Size get areaSize {
+    switch (this) {
+      case TetroMino.T:
+        return Size(3, 3);
+      case TetroMino.S:
+        return Size(3, 3);
+      case TetroMino.Z:
+        return Size(3, 3);
+      case TetroMino.L:
+        return Size(3, 3);
+      case TetroMino.J:
+        return Size(3, 3);
+      case TetroMino.O:
+        return Size(2, 2);
+      case TetroMino.I:
+        return Size(4, 4);
+    }
+  }
+
   List<Block> get initialPlacement {
     switch (this) {
       case TetroMino.T:
