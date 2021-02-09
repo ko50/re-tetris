@@ -7,13 +7,12 @@ import 'package:re_tetris/domain/model/block.dart';
 class Mino {
   List<Block> blocks;
   TetroMino type;
-  Direction direction;
+  Direction direction = Direction.North;
   Offset cornerCordinate = Offset(3, 20);
 
   Mino({
     required this.blocks,
     required this.type,
-    required this.direction,
   });
 
   Mino.from(Mino mino)
