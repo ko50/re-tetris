@@ -4,15 +4,18 @@ import 'package:re_tetris/domain/enum/direction.dart';
 import 'package:re_tetris/domain/enum/tetromino.dart';
 import 'package:re_tetris/domain/model/block.dart';
 import 'package:re_tetris/domain/model/mino.dart';
-import 'package:re_tetris/domain/service/interface/rotate_mino.dart';
+import 'package:re_tetris/domain/service/interface/rotate.dart';
 
-class RotateMino implements IRotateMino {
-  Mino rotateMino(Mino mino, RotateDirection direction) {
+class Rotate implements IRotate {
+  List<List<int>> rotate(List<List<int>> placement, RotateDirection direction) {
+    /*
+    (Mino mino, RotateDirection direction) {
     final Mino rotatedMino = Mino.from(mino);
-    final List<List<int>> rotatedPlacement = [];
     final List<List<int>> placement = direction == RotateDirection.Left
         ? convertBlocks(mino)
         : convertBlocks(mino).reversed.toList();
+  */
+    final List<List<int>> rotatedPlacement = [];
 
     List<int> column;
     for (int i = 0; i < placement.length; i++) {
@@ -22,16 +25,19 @@ class RotateMino implements IRotateMino {
       rotatedPlacement.add(column);
     }
 
-    return rotatedMino
-      ..direction = _changeDirection(mino.direction, direction)
-      ..blocks = convertPlacement(
-        rotatedPlacement,
-        mino.type.color,
-        mino.cornerCordinate,
+    return rotatedPlacement;
+    /*
+      rotatedMino
+        ..direction = _changeDirection(mino.direction, direction)
+        ..blocks = convertPlacement(
+          rotatedPlacement,
+          mino.type.color,
+          mino.cornerCordinate,
       );
+    */
   }
 
-  Direction _changeDirection(
+  Direction changeDirection(
       Direction current, RotateDirection rotateDirection) {
     final int i = rotateDirection == RotateDirection.Right ? 1 : -1;
     return Direction.values[(current.index + i) % 4];
