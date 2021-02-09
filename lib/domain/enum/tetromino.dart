@@ -49,8 +49,8 @@ extension Info on TetroMino {
         return [
           Block(x: 4, y: 20, color: this.color),
           Block(x: 3, y: 19, color: this.color),
-          Block(x: 3, y: 19, color: this.color),
-          Block(x: 3, y: 19, color: this.color),
+          Block(x: 4, y: 19, color: this.color),
+          Block(x: 5, y: 19, color: this.color),
         ];
       case TetroMino.S:
         return [

@@ -4,10 +4,11 @@ import 'package:re_tetris/domain/service/interface/block_validation.dart';
 
 class BlockValidation implements IBlockValidation {
   bool canPutOn(Block block, List<Block> filled) => filled.any((placedBlock) {
-        if (block.x >= FIELD_WIDTH) return false;
-        if (block.x < 0) return false;
-        if (block.y < 0) return false;
+        if (block.cordinate.x >= FIELD_WIDTH) return false;
+        if (block.cordinate.x < 0) return false;
+        if (block.cordinate.y < 0) return false;
 
-        return placedBlock.x == block.x && placedBlock.y == block.y;
+        return placedBlock.cordinate.x == block.cordinate.x &&
+            placedBlock.cordinate.y == block.cordinate.y;
       });
 }

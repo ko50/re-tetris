@@ -1,14 +1,13 @@
-import 'package:flutter/cupertino.dart';
-
 import 'package:re_tetris/domain/enum/direction.dart';
 import 'package:re_tetris/domain/enum/tetromino.dart';
 import 'package:re_tetris/domain/model/block.dart';
+import 'package:re_tetris/domain/model/cordinate.dart';
 
 class Mino {
   List<Block> blocks;
   TetroMino type;
   Direction direction = Direction.North;
-  Offset cornerCordinate = Offset(3, 20);
+  Cordinate cornerCordinate = Cordinate(3, 20);
 
   Mino(this.type) : this.blocks = type.initialPlacement;
 
@@ -19,8 +18,8 @@ class Mino {
         ),
         this.direction = mino.direction,
         this.type = mino.type,
-        this.cornerCordinate = Offset(
-          mino.cornerCordinate.dx,
-          mino.cornerCordinate.dy,
+        this.cornerCordinate = Cordinate(
+          mino.cornerCordinate.x,
+          mino.cornerCordinate.y,
         );
 }

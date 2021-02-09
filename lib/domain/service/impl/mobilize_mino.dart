@@ -4,11 +4,11 @@ import 'package:re_tetris/domain/service/interface/mobilize_mino.dart';
 
 class MobilizeMino implements IMobilizeMino {
   Mino moveRight(Mino mino) =>
-      mino..blocks.map<Block>((block) => block..x += 1).toList();
+      mino..blocks.map<Block>((block) => block..cordinate.x += 1).toList();
 
   Mino moveLeft(Mino mino) =>
-      mino..blocks.map<Block>((block) => block..x -= 1).toList();
+      mino..blocks.map<Block>((block) => block..cordinate.x -= 1).toList();
 
   Mino down(Mino mino) =>
-      mino..blocks.map<Block>((block) => block..y -= 1).toList();
+      mino..blocks.map<Block>((block) => block..cordinate.y -= 1).toList();
 }
