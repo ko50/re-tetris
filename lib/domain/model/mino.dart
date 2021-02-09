@@ -10,10 +10,7 @@ class Mino {
   Direction direction = Direction.North;
   Offset cornerCordinate = Offset(3, 20);
 
-  Mino({
-    required this.blocks,
-    required this.type,
-  });
+  Mino(this.type) : this.blocks = type.initialPlacement;
 
   Mino.from(Mino mino)
       : this.blocks = List.generate(
