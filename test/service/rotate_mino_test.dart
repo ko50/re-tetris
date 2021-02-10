@@ -9,11 +9,12 @@ import 'package:re_tetris/domain/service/impl/rotate.dart';
 
 void main() {
   final Rotate rotate = Rotate();
+
   final Mino tMino = Mino(TetroMino.T),
       iMino = Mino(TetroMino.I),
       oMino = Mino(TetroMino.O);
 
-  late List<List<int>> convertedPlacement, rotatedPlacement;
+  List<List<int>> convertedPlacement, rotatedPlacement;
   Direction rotatedDirection;
   List<Block> rotatedBlocks;
 
