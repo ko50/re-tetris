@@ -51,17 +51,18 @@ class Rotate implements IRotate {
 
     return List.generate(
       areaSize.height.toInt(),
-      (y) => List.generate(areaSize.width.toInt(), (x) {
-        sameCordinate = mino.blocks.any(
-          (block) {
+      (y) => List.generate(
+        areaSize.width.toInt(),
+        (x) {
+          sameCordinate = mino.blocks.any((block) {
             sameRow = mino.cornerCordinate.y - y == block.cordinate.y;
             sameColumn = mino.cornerCordinate.x + x == block.cordinate.x;
             return sameRow && sameColumn;
-          },
-        );
+          });
 
-        return sameCordinate ? 1 : 0;
-      }),
+          return sameCordinate ? 1 : 0;
+        },
+      ),
     );
   }
 
@@ -72,14 +73,18 @@ class Rotate implements IRotate {
   ) {
     final List<Block> blocks = [];
     placement.asMap().forEach(
-          (y, row) => row.asMap().forEach((x, block) {
-            if (block == 0) return;
-            blocks.add(Block(
-              x: (corner.x + x).toInt(),
-              y: (corner.y - y).toInt(),
-              color: color,
-            ));
-          }),
+          (y, row) => row.asMap().forEach(
+            (x, block) {
+              if (block == 0) return;
+              blocks.add(
+                Block(
+                  x: corner.x + x,
+                  y: corner.y - y,
+                  color: color,
+                ),
+              );
+            },
+          ),
         );
 
     return blocks;

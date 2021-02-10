@@ -9,7 +9,9 @@ class Mino {
   Direction direction = Direction.North;
   Cordinate cornerCordinate = Cordinate(3, 20);
 
-  Mino(this.type) : this.blocks = type.initialPlacement;
+  Mino(this.type) : this.blocks = type.initialPlacement {
+    if (type == TetroMino.O) cornerCordinate.x = 4;
+  }
 
   Mino.from(Mino mino)
       : this.blocks = List.generate(
