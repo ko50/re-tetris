@@ -9,126 +9,117 @@ import 'package:re_tetris/domain/service/impl/rotate.dart';
 
 void main() {
   final Rotate rotate = Rotate();
+  final Mino tMino = Mino(TetroMino.T),
+      iMino = Mino(TetroMino.I),
+      oMino = Mino(TetroMino.O);
 
   late List<List<int>> convertedPlacement, rotatedPlacement;
   Direction rotatedDirection;
   List<Block> rotatedBlocks;
 
-  group('Test to convert data and rotate T mino to right', () {
-    final Mino mino = Mino(TetroMino.T);
-    Direction rotatedDirectionSample = Direction.East;
-    List<List<int>> placementSample, rotatedPlacementSample;
-    List<Cordinate> rotatedBlockCordinatesSample;
-    placementSample = [
-      [0, 1, 0],
-      [1, 1, 1],
-      [0, 0, 0],
-    ];
-    rotatedPlacementSample = [
-      [0, 1, 0],
-      [0, 1, 1],
-      [0, 1, 0],
-    ];
-    rotatedBlockCordinatesSample = [
-      Cordinate(4, 20),
-      Cordinate(3, 19),
-      Cordinate(4, 19),
-      Cordinate(5, 19),
-    ];
-
-    test(
-      'Convert blocks to mino placement',
-      () {
-        convertedPlacement = rotate.convertBlocks(mino);
-        expect(placementSample, convertedPlacement);
-      },
+  group('Convert data:', () {
+    convertedPlacement = rotate.convertBlocks(tMino);
+    rotatedPlacement = rotate.rotate(
+      convertedPlacement,
+      RotateDirection.Right,
     );
 
-    test(
-      'Rotate placement right',
-      () {
-        rotatedPlacement = rotate.rotate(
-          convertedPlacement,
-          RotateDirection.Right,
-        );
-        expect(rotatedPlacementSample, rotatedPlacement);
-      },
-    );
+    test('Convert blocks to placement', () {
+      expect(
+        convertedPlacement,
+        [
+          [0, 1, 0],
+          [1, 1, 1],
+          [0, 0, 0],
+        ],
+      );
+    });
 
-    test(
-      'Change direction of mino',
-      () {
-        rotatedDirection = rotate.changeDirection(
-          mino.direction,
-          RotateDirection.Right,
-        );
-        expect(rotatedDirectionSample, rotatedDirection);
-      },
-    );
+    test('Rotate placement right', () {
+      expect(
+        rotatedPlacement,
+        [
+          [0, 1, 0],
+          [0, 1, 1],
+          [0, 1, 0],
+        ],
+      );
+    });
 
-    test(
-      'Convert rotated placement to block list',
-      () {
-        rotatedBlocks = rotate.convertPlacement(
-          rotatedPlacement,
-          mino.type.color,
-          mino.cornerCordinate,
-        );
-        expect(
-          rotatedBlockCordinatesSample.map((c) => c.x).toList(),
-          rotatedBlocks.map((b) => b.cordinate.x).toList(),
-        );
-        expect(
-          rotatedBlockCordinatesSample.map((c) => c.y).toList(),
-          rotatedBlocks.map((b) => b.cordinate.y).toList(),
-        );
-      },
-    );
+    test('Change direction of mino', () {
+      rotatedDirection = rotate.changeDirection(
+        tMino.direction,
+        RotateDirection.Right,
+      );
+
+      expect(rotatedDirection, Direction.East);
+    });
+
+    test('Convert rotated placement to block list', () {
+      rotatedBlocks = rotate.convertPlacement(
+        rotatedPlacement,
+        tMino.type.color,
+        tMino.cornerCordinate,
+      );
+      final List<Cordinate> sample = [
+        Cordinate(4, 20),
+        Cordinate(4, 19),
+        Cordinate(5, 19),
+        Cordinate(4, 18),
+      ];
+
+      for (int i = 0; i < rotatedBlocks.length; i++)
+        assert(rotatedBlocks[i].cordinate == sample[i]);
+    });
   });
 
-  group('Test to Rotate other special minos to right', () {
-    final Mino iMino = Mino(TetroMino.I);
-    List<List<int>> rotatedPlacementSample = [
-      [0, 0, 1, 0],
-      [0, 0, 1, 0],
-      [0, 0, 1, 0],
-      [0, 0, 1, 0],
-    ];
-    test('Rotate I mino to right', () {
+  group('Rotate minos to right:', () {
+    test('Rotate I mino', () {
       rotatedPlacement = rotate.rotate(
         rotate.convertBlocks(iMino),
         RotateDirection.Right,
       );
-      expect(rotatedPlacementSample, rotatedPlacement);
+
+      expect(
+        rotatedPlacement,
+        [
+          [0, 0, 1, 0],
+          [0, 0, 1, 0],
+          [0, 0, 1, 0],
+          [0, 0, 1, 0],
+        ],
+      );
     });
 
-    final Mino oMino = Mino(TetroMino.O);
-    rotatedPlacementSample = [
-      [0, 0, 0],
-      [0, 1, 1],
-      [0, 1, 1],
-    ];
-    test('Rotate O mino to right', () {
+    test('Rotate O mino', () {
       rotatedPlacement = rotate.rotate(
         rotate.convertBlocks(oMino),
         RotateDirection.Right,
       );
-      expect(rotatedPlacementSample, rotatedPlacement);
+
+      expect(
+        rotatedPlacement,
+        [
+          [1, 1],
+          [1, 1],
+        ],
+      );
     });
   });
 
-  test('Rotate to Left', () {
-    final Mino mino = Mino(TetroMino.T);
-    List<List<int>> rotatedPlacementSample = [
-      [0, 1, 0],
-      [1, 1, 0],
-      [0, 1, 0],
-    ];
+  test('Rotate T mino to Left', () {
     rotatedPlacement = rotate.rotate(
-      rotate.convertBlocks(mino),
-      RotateDirection.Right,
+      rotate.convertBlocks(tMino),
+      RotateDirection.Left,
     );
 
-    expect(rotatedPlacementSample, rotatedPlacement);
+    expect(
+      rotatedPlacement,
+      [
+        [0, 1, 0],
+        [1, 1, 0],
+        [0, 1, 0],
+      ],
+    );
   });
 }
