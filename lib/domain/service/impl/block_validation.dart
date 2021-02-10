@@ -8,6 +8,6 @@ class BlockValidation implements IBlockValidation {
         if (block.cordinate.x < 0) return false;
         if (block.cordinate.y < 0) return false;
 
-        return placedBlock.cordinate == block.cordinate;
+        return placedBlock.cordinate != block.cordinate;
       });
 }
