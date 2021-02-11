@@ -4,6 +4,10 @@ class Cordinate {
 
   Cordinate(this.x, this.y);
 
+  Cordinate.from(Cordinate cordinate)
+      : this.x = cordinate.x,
+        this.y = cordinate.y;
+
   @override
   int get hashCode => super.hashCode;
 
@@ -13,4 +17,12 @@ class Cordinate {
 
     return x == other.x && y == other.y;
   }
+
+  Cordinate operator +(Cordinate other) => Cordinate(
+        this.x + other.x,
+        this.y + other.y,
+      );
+
+  @override
+  String toString() => "($x, $y)";
 }

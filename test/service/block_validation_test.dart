@@ -28,27 +28,27 @@ void main() {
   });
 
   test('Validate stacked block', () {
-    result = validator.canPutOn(stackedBlock, placedBlocks);
+    result = validator.canPutBlock(stackedBlock, placedBlocks);
     expect(result, false);
   });
 
   test('Validate unstacked block', () {
-    result = validator.canPutOn(unstackedblock, placedBlocks);
+    result = validator.canPutBlock(unstackedblock, placedBlocks);
     expect(result, true);
   });
 
   test('Validate over right block', () {
-    result = validator.canPutOn(overRightBlock, placedBlocks);
+    result = validator.canPutBlock(overRightBlock, placedBlocks);
     expect(result, false);
   });
 
   test('Validate over left block', () {
-    result = validator.canPutOn(overLeftBlock, placedBlocks);
+    result = validator.canPutBlock(overLeftBlock, placedBlocks);
     expect(result, false);
   });
 
   test('Validate over under block', () {
-    result = validator.canPutOn(overUnderBlock, placedBlocks);
+    result = validator.canPutBlock(overUnderBlock, placedBlocks);
     expect(result, false);
   });
 }
