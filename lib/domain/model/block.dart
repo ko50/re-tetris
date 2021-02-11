@@ -13,6 +13,6 @@ class Block {
   }) : this.cordinate = Cordinate(x, y);
 
   Block.from(Block block)
-      : this.cordinate = block.cordinate,
+      : this.cordinate = Cordinate.from(block.cordinate),
         this.color = Color(block.color.value);
 }

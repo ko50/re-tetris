@@ -43,8 +43,10 @@ class OperateMino {
     Mino actualMovedMino = Mino.from(mino), tmpMovedMino = mobilize.down(mino);
 
     while (validator.canPutMino(tmpMovedMino, placedBlocks)) {
-      actualMovedMino = Mino.from(tmpMovedMino);
-      mobilize.down(tmpMovedMino);
+      if (validator.canPutMino(tmpMovedMino, placedBlocks))
+        actualMovedMino = Mino.from(tmpMovedMino);
+
+      tmpMovedMino = mobilize.down(tmpMovedMino);
     }
 
     return actualMovedMino;
@@ -52,14 +54,16 @@ class OperateMino {
 
   Mino rotateMino(
       Mino mino, RotateDirection direction, List<Block> placedBlocks) {
+    List<List<int>> placement = rotate.convertBlocks(mino),
+        rotatedPlacement = rotate.rotate(placement, direction);
     List<Block> blocks = rotate.convertPlacement(
-      rotate.rotate(rotate.convertBlocks(mino), direction),
+      rotatedPlacement,
       mino.type.color,
       mino.cornerCordinate,
     );
 
     Mino rotatedMino = Mino.from(mino)
-      ..blocks = blocks
+      ..blocks = blocks.map<Block>((b) => Block.from(b)).toList()
       ..direction = rotate.changeDirection(mino.direction, direction);
 
     mino.direction
@@ -68,7 +72,8 @@ class OperateMino {
         .forEach((shift) {
       if (validator.canPutMino(rotatedMino, placedBlocks)) return;
 
-      rotatedMino.blocks.forEach((block) => block.cordinate += shift);
+      for (int i = 0; i < blocks.length; i++)
+        rotatedMino.blocks[i] = Block.from(blocks[i])..cordinate += shift;
     });
 
     return rotatedMino;

@@ -4,6 +4,10 @@ class Cordinate {
 
   Cordinate(this.x, this.y);
 
+  Cordinate.from(Cordinate cordinate)
+      : this.x = cordinate.x,
+        this.y = cordinate.y;
+
   @override
   int get hashCode => super.hashCode;
 
