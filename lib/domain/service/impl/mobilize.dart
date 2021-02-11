@@ -1,8 +1,8 @@
 import 'package:re_tetris/domain/model/block.dart';
 import 'package:re_tetris/domain/model/mino.dart';
-import 'package:re_tetris/domain/service/interface/mobilize_mino.dart';
+import 'package:re_tetris/domain/service/interface/mobilize.dart';
 
-class MobilizeMino implements IMobilizeMino {
+class Mobilize implements IMobilize {
   Mino moveRight(Mino mino) {
     final List<Block> blocks =
         mino.blocks.map<Block>((b) => Block.from(b)).toList();

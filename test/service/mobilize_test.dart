@@ -2,10 +2,10 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:re_tetris/domain/enum/tetromino.dart';
 import 'package:re_tetris/domain/model/mino.dart';
-import 'package:re_tetris/domain/service/impl/mobilize_mino.dart';
+import 'package:re_tetris/domain/service/impl/mobilize.dart';
 
 void main() {
-  final MobilizeMino mobilizeMino = MobilizeMino();
+  final Mobilize mobilizeMino = Mobilize();
 
   late Mino mino;
 
