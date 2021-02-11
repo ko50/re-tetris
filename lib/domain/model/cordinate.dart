@@ -13,4 +13,9 @@ class Cordinate {
 
     return x == other.x && y == other.y;
   }
+
+  Cordinate operator +(Cordinate other) => Cordinate(
+        this.x + other.x,
+        this.y + other.y,
+      );
 }
