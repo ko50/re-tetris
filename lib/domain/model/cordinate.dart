@@ -18,4 +18,7 @@ class Cordinate {
         this.x + other.x,
         this.y + other.y,
       );
+
+  @override
+  String toString() => "($x, $y)";
 }
