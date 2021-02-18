@@ -10,16 +10,15 @@ class ManageMinos implements IManageMinos {
     return current..nextMinos.addAll(List.from(TetroMino.values)..shuffle());
   }
 
-  MinoAdministrator holdMino(MinoAdministrator info) {
-    if (!info.canHold) return info;
+  MinoAdministrator holdMino(MinoAdministrator current) {
+    if (!current.canHold) return current;
 
-    MinoAdministrator modified = MinoAdministrator.from(info);
+    MinoAdministrator modified = MinoAdministrator.from(current);
 
-    modified.holdedMino = info.operatingMino.type;
-    modified.operatingMino = Mino(info.holdedMino ?? info.nextMinos.first);
-    modified.operatingMino = Mino(info.nextMinos.first);
-    modified.nextMinos.removeAt(0);
+    modified.holdedMino = current.operatingMino.type;
+    modified.operatingMino = Mino(current.holdedMino ?? current.nextMinos[0]);
 
+    if (current.holdedMino == null) modified.nextMinos.removeAt(0);
     modified.canHold = false;
     modified = supplyNextMinos(modified);
 
@@ -29,7 +28,7 @@ class ManageMinos implements IManageMinos {
   MinoAdministrator putMino(MinoAdministrator current) {
     MinoAdministrator modified = MinoAdministrator.from(current);
 
-    modified.operatingMino = Mino(modified.nextMinos.first);
+    modified.operatingMino = Mino(modified.nextMinos[0]);
     modified.nextMinos.removeAt(0);
 
     modified.canHold = true;
