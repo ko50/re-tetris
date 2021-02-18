@@ -17,7 +17,7 @@ void main() {
     expect(minoAdministrator.canHold, true);
     expect(minoAdministrator.holdedMino, null);
     expect(minoAdministrator.operatingMino.type, TetroMino.T);
-    expect(minoAdministrator.nextMinos, TetroMino.values);
+    expect(minoAdministrator.nextMinos, TetroMino.values.sublist(1));
   });
 
   group('Supply next minos:', () {
@@ -28,7 +28,7 @@ void main() {
       expect(minoAdministrator.nextMinos.length, 7);
     });
 
-    test('Next minos remain fewer 6', () {
+    test('Next minos remains fewer 6', () {
       minoAdministrator.nextMinos = TetroMino.values.sublist(3);
       minoAdministrator = manageMinos.supplyNextMinos(minoAdministrator);
 
@@ -44,7 +44,7 @@ void main() {
         expect(minoAdministrator.canHold, false);
         expect(minoAdministrator.holdedMino, TetroMino.T);
         expect(minoAdministrator.operatingMino.type, TetroMino.S);
-        expect(minoAdministrator.nextMinos, TetroMino.values.sublist(2));
+        expect(minoAdministrator.nextMinos.length, 12);
       });
 
       test('Hold when you can\'t hold', () {
@@ -54,7 +54,7 @@ void main() {
         expect(minoAdministrator.canHold, false);
         expect(minoAdministrator.holdedMino, null);
         expect(minoAdministrator.operatingMino.type, TetroMino.T);
-        expect(minoAdministrator.nextMinos, TetroMino.values.sublist(1));
+        expect(minoAdministrator.nextMinos.length, 6);
       });
     });
 
@@ -66,7 +66,7 @@ void main() {
         expect(minoAdministrator.canHold, false);
         expect(minoAdministrator.holdedMino, TetroMino.T);
         expect(minoAdministrator.operatingMino.type, TetroMino.O);
-        expect(minoAdministrator.nextMinos, TetroMino.values.sublist(1));
+        expect(minoAdministrator.nextMinos.length, 6);
       });
 
       test('Hold when you can\'t hold', () {
@@ -77,7 +77,7 @@ void main() {
         expect(minoAdministrator.canHold, false);
         expect(minoAdministrator.holdedMino, TetroMino.O);
         expect(minoAdministrator.operatingMino.type, TetroMino.T);
-        expect(minoAdministrator.nextMinos, TetroMino.values.sublist(1));
+        expect(minoAdministrator.nextMinos.length, 6);
       });
     });
   });
@@ -89,6 +89,6 @@ void main() {
     expect(minoAdministrator.canHold, true);
     expect(minoAdministrator.holdedMino, null);
     expect(minoAdministrator.operatingMino.type, TetroMino.S);
-    expect(minoAdministrator.nextMinos, TetroMino.values.sublist(2));
+    expect(minoAdministrator.nextMinos.length, 5);
   });
 }
