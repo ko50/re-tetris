@@ -17,7 +17,7 @@ class FieldController implements IFieldController {
   List<Block> placedBlocks = [];
   Minos minosInfo;
   int lockDownMarginRemain = 15;
-  int lockDownMargin = 500;
+  int lockDownMargin = LOCKDOWN_MARGIN;
 
   FieldController({
     required List<TetroMino> nextMinos,
@@ -27,7 +27,7 @@ class FieldController implements IFieldController {
 
   void _resetMargin() {
     lockDownMarginRemain = 15;
-    lockDownMargin = 500;
+    lockDownMargin = LOCKDOWN_MARGIN;
   }
 
   void hold() {
@@ -49,7 +49,7 @@ class FieldController implements IFieldController {
     if (moved.y < before.y)
       _resetMargin();
     else if (moved != before) {
-      lockDownMargin = 500;
+      lockDownMargin = LOCKDOWN_MARGIN;
       lockDownMarginRemain -= 1;
     }
 
@@ -70,30 +70,36 @@ class FieldController implements IFieldController {
     if (moved.y < before.y)
       _resetMargin();
     else if (moved != before) {
-      lockDownMargin = 500;
+      lockDownMargin = LOCKDOWN_MARGIN;
       lockDownMarginRemain -= 1;
     }
   }
 
-  void onTick() {
+  void onTick(int tick) {
     lockDownMargin -= GAME_TICK;
 
-    Cordinate before = Cordinate.from(minosInfo.operatingMino.cornerCordinate);
+    if (tick % DOWN_SPEED == 0) {
+      Cordinate before =
+          Cordinate.from(minosInfo.operatingMino.cornerCordinate);
 
-    minosInfo.operatingMino = minoOperator.moveMino(
-      minosInfo.operatingMino,
-      MoveDirection.Down,
-      placedBlocks,
-    );
+      minosInfo.operatingMino = minoOperator.moveMino(
+        minosInfo.operatingMino,
+        MoveDirection.Down,
+        placedBlocks,
+      );
 
-    Cordinate moved = Cordinate.from(minosInfo.operatingMino.cornerCordinate);
+      Cordinate moved = Cordinate.from(minosInfo.operatingMino.cornerCordinate);
 
-    if (moved.y < before.y)
-      _resetMargin();
-    else if (lockDownMargin <= 0) put();
+      if (moved.y < before.y) {
+        _resetMargin();
+      } else if (lockDownMargin <= 0) {
+        put();
+      }
+    }
   }
 
   void put() {
+    placedBlocks.addAll(minosInfo.operatingMino.blocks);
     minosInfo = manageMinos.putMino(minosInfo);
     _lineClear();
     _resetMargin();

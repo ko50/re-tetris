@@ -29,7 +29,7 @@ abstract class IFieldController {
 
   void rotate(RotateDirection direction);
 
-  void onTick();
+  void onTick(int tick);
 
   void put();
 }

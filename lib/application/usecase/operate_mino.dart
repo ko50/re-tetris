@@ -36,7 +36,7 @@ class OperateMino {
         break;
     }
 
-    return validator.canPutMino(mino, placedBlocks) ? movedMino : mino;
+    return validator.canPutMino(movedMino, placedBlocks) ? movedMino : mino;
   }
 
   Mino _hardDrop(Mino mino, List<Block> placedBlocks) {
