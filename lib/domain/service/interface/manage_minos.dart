@@ -1,9 +1,9 @@
-import 'package:re_tetris/domain/model/mino_administrator.dart';
+import 'package:re_tetris/domain/model/minos.dart';
 
 abstract class IManageMinos {
-  MinoAdministrator supplyNextMinos(MinoAdministrator current);
+  Minos supplyNextMinos(Minos current);
 
-  MinoAdministrator holdMino(MinoAdministrator current);
+  Minos holdMino(Minos current);
 
-  MinoAdministrator putMino(MinoAdministrator current);
+  Minos putMino(Minos current);
 }

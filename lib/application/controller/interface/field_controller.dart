@@ -1,7 +1,7 @@
 import 'package:re_tetris/application/usecase/operate_mino.dart';
 import 'package:re_tetris/domain/enum/direction.dart';
 import 'package:re_tetris/domain/model/block.dart';
-import 'package:re_tetris/domain/model/mino_administrator.dart';
+import 'package:re_tetris/domain/model/minos.dart';
 import 'package:re_tetris/domain/service/interface/manage_minos.dart';
 
 abstract class IFieldController {
@@ -10,12 +10,12 @@ abstract class IFieldController {
   IManageMinos manageMinos;
 
   List<Block> placedBlocks;
-  MinoAdministrator minoAdministrator;
+  Minos minosInfo;
 
   IFieldController(
     this.minoOperator,
     this.manageMinos,
-    this.minoAdministrator,
+    this.minosInfo,
     this.placedBlocks,
   );
 

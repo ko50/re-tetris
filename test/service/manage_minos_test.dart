@@ -1,94 +1,94 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:re_tetris/domain/enum/tetromino.dart';
-import 'package:re_tetris/domain/model/mino_administrator.dart';
+import 'package:re_tetris/domain/model/minos.dart';
 import 'package:re_tetris/domain/service/impl/manage_minos.dart';
 
 void main() {
   final ManageMinos manageMinos = ManageMinos();
 
   final List<TetroMino> nextMinos = TetroMino.values;
-  MinoAdministrator minoAdministrator = MinoAdministrator(nextMinos: nextMinos);
+  Minos minosInfo = Minos(nextMinos: nextMinos);
 
   setUp(() {
-    minoAdministrator = MinoAdministrator(nextMinos: nextMinos);
+    minosInfo = Minos(nextMinos: nextMinos);
   });
 
   test('Default state', () {
-    expect(minoAdministrator.canHold, true);
-    expect(minoAdministrator.holdedMino, null);
-    expect(minoAdministrator.operatingMino.type, TetroMino.T);
-    expect(minoAdministrator.nextMinos, TetroMino.values.sublist(1));
+    expect(minosInfo.canHold, true);
+    expect(minosInfo.holdedMino, null);
+    expect(minosInfo.operatingMino.type, TetroMino.T);
+    expect(minosInfo.nextMinos, TetroMino.values.sublist(1));
   });
 
   group('Supply next minos:', () {
     test('Next minos remains over 6', () {
-      minoAdministrator.nextMinos = TetroMino.values;
-      minoAdministrator = manageMinos.supplyNextMinos(minoAdministrator);
+      minosInfo.nextMinos = TetroMino.values;
+      minosInfo = manageMinos.supplyNextMinos(minosInfo);
 
-      expect(minoAdministrator.nextMinos.length, 7);
+      expect(minosInfo.nextMinos.length, 7);
     });
 
     test('Next minos remains fewer 6', () {
-      minoAdministrator.nextMinos = TetroMino.values.sublist(3);
-      minoAdministrator = manageMinos.supplyNextMinos(minoAdministrator);
+      minosInfo.nextMinos = TetroMino.values.sublist(3);
+      minosInfo = manageMinos.supplyNextMinos(minosInfo);
 
-      expect(minoAdministrator.nextMinos.length, 11);
+      expect(minosInfo.nextMinos.length, 11);
     });
   });
 
   group('Hold mino:', () {
     group('Hold when holdedMino is null:', () {
       test('Hold when you can hold', () {
-        minoAdministrator = manageMinos.holdMino(minoAdministrator);
+        minosInfo = manageMinos.holdMino(minosInfo);
 
-        expect(minoAdministrator.canHold, false);
-        expect(minoAdministrator.holdedMino, TetroMino.T);
-        expect(minoAdministrator.operatingMino.type, TetroMino.S);
-        expect(minoAdministrator.nextMinos.length, 12);
+        expect(minosInfo.canHold, false);
+        expect(minosInfo.holdedMino, TetroMino.T);
+        expect(minosInfo.operatingMino.type, TetroMino.S);
+        expect(minosInfo.nextMinos.length, 12);
       });
 
       test('Hold when you can\'t hold', () {
-        minoAdministrator.canHold = false;
-        minoAdministrator = manageMinos.holdMino(minoAdministrator);
+        minosInfo.canHold = false;
+        minosInfo = manageMinos.holdMino(minosInfo);
 
-        expect(minoAdministrator.canHold, false);
-        expect(minoAdministrator.holdedMino, null);
-        expect(minoAdministrator.operatingMino.type, TetroMino.T);
-        expect(minoAdministrator.nextMinos.length, 6);
+        expect(minosInfo.canHold, false);
+        expect(minosInfo.holdedMino, null);
+        expect(minosInfo.operatingMino.type, TetroMino.T);
+        expect(minosInfo.nextMinos.length, 6);
       });
     });
 
     group('Hold when holdedMino is not null:', () {
       test('Hold when you can hold', () {
-        minoAdministrator.holdedMino = TetroMino.O;
-        minoAdministrator = manageMinos.holdMino(minoAdministrator);
+        minosInfo.holdedMino = TetroMino.O;
+        minosInfo = manageMinos.holdMino(minosInfo);
 
-        expect(minoAdministrator.canHold, false);
-        expect(minoAdministrator.holdedMino, TetroMino.T);
-        expect(minoAdministrator.operatingMino.type, TetroMino.O);
-        expect(minoAdministrator.nextMinos.length, 6);
+        expect(minosInfo.canHold, false);
+        expect(minosInfo.holdedMino, TetroMino.T);
+        expect(minosInfo.operatingMino.type, TetroMino.O);
+        expect(minosInfo.nextMinos.length, 6);
       });
 
       test('Hold when you can\'t hold', () {
-        minoAdministrator.holdedMino = TetroMino.O;
-        minoAdministrator.canHold = false;
-        minoAdministrator = manageMinos.holdMino(minoAdministrator);
+        minosInfo.holdedMino = TetroMino.O;
+        minosInfo.canHold = false;
+        minosInfo = manageMinos.holdMino(minosInfo);
 
-        expect(minoAdministrator.canHold, false);
-        expect(minoAdministrator.holdedMino, TetroMino.O);
-        expect(minoAdministrator.operatingMino.type, TetroMino.T);
-        expect(minoAdministrator.nextMinos.length, 6);
+        expect(minosInfo.canHold, false);
+        expect(minosInfo.holdedMino, TetroMino.O);
+        expect(minosInfo.operatingMino.type, TetroMino.T);
+        expect(minosInfo.nextMinos.length, 6);
       });
     });
   });
 
   test('Put mino:', () {
-    minoAdministrator.canHold = false;
-    minoAdministrator = manageMinos.putMino(minoAdministrator);
+    minosInfo.canHold = false;
+    minosInfo = manageMinos.putMino(minosInfo);
 
-    expect(minoAdministrator.canHold, true);
-    expect(minoAdministrator.holdedMino, null);
-    expect(minoAdministrator.operatingMino.type, TetroMino.S);
-    expect(minoAdministrator.nextMinos.length, 5);
+    expect(minosInfo.canHold, true);
+    expect(minosInfo.holdedMino, null);
+    expect(minosInfo.operatingMino.type, TetroMino.S);
+    expect(minosInfo.nextMinos.length, 5);
   });
 }

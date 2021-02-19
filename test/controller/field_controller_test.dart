@@ -9,7 +9,7 @@ import 'package:re_tetris/domain/enum/tetromino.dart';
 import 'package:re_tetris/domain/model/block.dart';
 import 'package:re_tetris/domain/model/cordinate.dart';
 import 'package:re_tetris/domain/model/mino.dart';
-import 'package:re_tetris/domain/model/waiting_mino_info.dart';
+import 'package:re_tetris/domain/model/minos.dart';
 import 'package:re_tetris/domain/service/impl/block_validation.dart';
 import 'package:re_tetris/domain/service/impl/mobilize.dart';
 import 'package:re_tetris/domain/service/impl/rotate.dart';
@@ -21,12 +21,16 @@ void main() {
   final IRotate rotate = Rotate();
   final IMobilize mobilize = Mobilize();
   final IBlockValidation validator = BlockValidation();
+  final Minos minosInfo = Minos(nextMinos: ,);
   final OperateMino minoOperator = OperateMino(rotate, mobilize, validator);
 
-  FieldController controller = FieldController(minoOperator: minoOperator);
+  FieldController controller = FieldController(
+    minoOperator: minoOperator,
+    minosInfo: ,
+  );
 
   setUp(() {
-    WaitingMinoInfo waitingMinoInfo = WaitingMinoInfo(nextMinos: [
+    Minos minosInfo = Minos(nextMinos: [
       TetroMino.S,
       TetroMino.Z,
       TetroMino.L,
@@ -34,26 +38,28 @@ void main() {
       TetroMino.O,
       TetroMino.I,
     ]);
-    controller = FieldController(minoOperator: minoOperator)
-      ..waitingMinoInfo = waitingMinoInfo
+    controller = FieldController(
+      minoOperator: minoOperator,
+    )
+      ..minosInfo = minosInfo
       ..operatingMino = Mino(TetroMino.T);
   });
 
   group('Hold:', () {
     test('You can hold', () {
-      expect(controller.waitingMinoInfo.canHold, true);
+      expect(controller.minosInfo.canHold, true);
     });
 
     test('Hold onece', () {
       controller.hold();
 
       expect(
-        controller.waitingMinoInfo.canHold,
+        controller.minosInfo.canHold,
         false,
         reason: ': Can\'t hold after hold',
       );
       expect(
-        controller.waitingMinoInfo.holdedMino,
+        controller.minosInfo.holdedMino,
         TetroMino.T,
         reason: ': Holded mino is previous operated mino',
       );
@@ -63,7 +69,7 @@ void main() {
         reason: ': Operating mino is first of next minos',
       );
       expect(
-        controller.waitingMinoInfo.nextMinos,
+        controller.minosInfo.nextMinos,
         [
           TetroMino.Z,
           TetroMino.L,
@@ -79,7 +85,7 @@ void main() {
       controller..hold();
 
       expect(
-        controller.waitingMinoInfo.canHold,
+        controller.minosInfo.canHold,
         false,
         reason: ': Can\'t hold after hold',
       );
@@ -87,7 +93,7 @@ void main() {
       controller..hold();
 
       expect(
-        controller.waitingMinoInfo.holdedMino,
+        controller.minosInfo.holdedMino,
         TetroMino.T,
         reason: ': Holded mino is still holded at first',
       );
@@ -97,7 +103,7 @@ void main() {
         reason: ': Operating mino is first of next minos',
       );
       expect(
-        controller.waitingMinoInfo.nextMinos,
+        controller.minosInfo.nextMinos,
         [
           TetroMino.Z,
           TetroMino.L,
@@ -124,9 +130,9 @@ void main() {
         ],
       );
       expect(controller.operatingMino.type, TetroMino.S);
-      expect(controller.waitingMinoInfo.canHold, true);
+      expect(controller.minosInfo.canHold, true);
       expect(
-        controller.waitingMinoInfo.nextMinos,
+        controller.minosInfo.nextMinos,
         [
           TetroMino.Z,
           TetroMino.L,

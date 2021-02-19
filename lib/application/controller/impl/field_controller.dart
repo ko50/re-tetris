@@ -6,7 +6,7 @@ import 'package:re_tetris/domain/enum/tetromino.dart';
 import 'package:re_tetris/domain/model/block.dart';
 import 'package:re_tetris/domain/model/cordinate.dart';
 import 'package:re_tetris/domain/model/mino.dart';
-import 'package:re_tetris/domain/model/mino_administrator.dart';
+import 'package:re_tetris/domain/model/minos.dart';
 import 'package:re_tetris/domain/service/interface/manage_minos.dart';
 
 class FieldController implements IFieldController {
@@ -15,7 +15,7 @@ class FieldController implements IFieldController {
   IManageMinos manageMinos;
 
   List<Block> placedBlocks = [];
-  MinoAdministrator minoAdministrator;
+  Minos minosInfo;
   int lockDownMarginRemain = 15;
   int lockDownMargin = 500;
 
@@ -23,7 +23,7 @@ class FieldController implements IFieldController {
     required List<TetroMino> nextMinos,
     required this.minoOperator,
     required this.manageMinos,
-  }) : this.minoAdministrator = MinoAdministrator(nextMinos: nextMinos);
+  }) : this.minosInfo = Minos(nextMinos: nextMinos);
 
   void _resetMargin() {
     lockDownMarginRemain = 15;
@@ -31,22 +31,20 @@ class FieldController implements IFieldController {
   }
 
   void hold() {
-    minoAdministrator = manageMinos.holdMino(minoAdministrator);
+    minosInfo = manageMinos.holdMino(minosInfo);
     _resetMargin();
   }
 
   void move(MoveDirection direction) {
-    Cordinate before =
-        Cordinate.from(minoAdministrator.operatingMino.cornerCordinate);
+    Cordinate before = Cordinate.from(minosInfo.operatingMino.cornerCordinate);
 
-    minoAdministrator.operatingMino = minoOperator.moveMino(
-      minoAdministrator.operatingMino,
+    minosInfo.operatingMino = minoOperator.moveMino(
+      minosInfo.operatingMino,
       direction,
       placedBlocks,
     );
 
-    Cordinate moved =
-        Cordinate.from(minoAdministrator.operatingMino.cornerCordinate);
+    Cordinate moved = Cordinate.from(minosInfo.operatingMino.cornerCordinate);
 
     if (moved.y < before.y)
       _resetMargin();
@@ -59,17 +57,15 @@ class FieldController implements IFieldController {
   }
 
   void rotate(RotateDirection direction) {
-    Cordinate before =
-        Cordinate.from(minoAdministrator.operatingMino.cornerCordinate);
+    Cordinate before = Cordinate.from(minosInfo.operatingMino.cornerCordinate);
 
-    minoAdministrator.operatingMino = minoOperator.rotateMino(
-      minoAdministrator.operatingMino,
+    minosInfo.operatingMino = minoOperator.rotateMino(
+      minosInfo.operatingMino,
       direction,
       placedBlocks,
     );
 
-    Cordinate moved =
-        Cordinate.from(minoAdministrator.operatingMino.cornerCordinate);
+    Cordinate moved = Cordinate.from(minosInfo.operatingMino.cornerCordinate);
 
     if (moved.y < before.y)
       _resetMargin();
@@ -82,17 +78,15 @@ class FieldController implements IFieldController {
   void onTick() {
     lockDownMargin -= GAME_TICK;
 
-    Cordinate before =
-        Cordinate.from(minoAdministrator.operatingMino.cornerCordinate);
+    Cordinate before = Cordinate.from(minosInfo.operatingMino.cornerCordinate);
 
-    minoAdministrator.operatingMino = minoOperator.moveMino(
-      minoAdministrator.operatingMino,
+    minosInfo.operatingMino = minoOperator.moveMino(
+      minosInfo.operatingMino,
       MoveDirection.Down,
       placedBlocks,
     );
 
-    Cordinate moved =
-        Cordinate.from(minoAdministrator.operatingMino.cornerCordinate);
+    Cordinate moved = Cordinate.from(minosInfo.operatingMino.cornerCordinate);
 
     if (moved.y < before.y)
       _resetMargin();
@@ -100,7 +94,7 @@ class FieldController implements IFieldController {
   }
 
   void put() {
-    minoAdministrator = manageMinos.putMino(minoAdministrator);
+    minosInfo = manageMinos.putMino(minosInfo);
     _lineClear();
     _resetMargin();
   }
