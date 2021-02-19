@@ -99,5 +99,31 @@ class FieldController implements IFieldController {
     _resetMargin();
   }
 
-  void _lineClear() {}
+  void _lineClear() {
+    int clearedLineCount = 0;
+    List<int> clearableLinesY = [];
+    List<Cordinate> cordinates = [];
+
+    for (int i = 0; i <= FIELD_HEIGHT; i++) {
+      cordinates = placedBlocks
+          .map<Cordinate>((b) => b.cordinate)
+          .where((c) => c.y == i)
+          .toList();
+
+      if (cordinates.length == FIELD_WIDTH) {
+        clearableLinesY.add(i);
+        clearedLineCount++;
+      }
+    }
+
+    clearableLinesY.forEach((y) => placedBlocks.removeWhere(
+          (block) => block.cordinate.y == y,
+        ));
+
+    if (clearedLineCount != 0) {
+      placedBlocks
+          .where((block) => block.cordinate.y >= clearableLinesY.last)
+          .forEach((block) => block.cordinate.y -= clearedLineCount);
+    }
+  }
 }
