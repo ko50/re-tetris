@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:re_tetris/application/controller/impl/field_controller.dart';
+import 'package:re_tetris/application/controller/interface/field_controller.dart';
 import 'package:re_tetris/application/usecase/operate_mino.dart';
 import 'package:re_tetris/constants.dart';
 import 'package:re_tetris/domain/enum/direction.dart';
@@ -11,9 +12,11 @@ import 'package:re_tetris/domain/model/cordinate.dart';
 import 'package:re_tetris/domain/model/mino.dart';
 import 'package:re_tetris/domain/model/minos.dart';
 import 'package:re_tetris/domain/service/impl/block_validation.dart';
+import 'package:re_tetris/domain/service/impl/manage_minos.dart';
 import 'package:re_tetris/domain/service/impl/mobilize.dart';
 import 'package:re_tetris/domain/service/impl/rotate.dart';
 import 'package:re_tetris/domain/service/interface/block_validation.dart';
+import 'package:re_tetris/domain/service/interface/manage_minos.dart';
 import 'package:re_tetris/domain/service/interface/mobilize.dart';
 import 'package:re_tetris/domain/service/interface/rotate.dart';
 
@@ -21,104 +24,40 @@ void main() {
   final IRotate rotate = Rotate();
   final IMobilize mobilize = Mobilize();
   final IBlockValidation validator = BlockValidation();
-  final Minos minosInfo = Minos(nextMinos: ,);
+  final IManageMinos manageMinos = ManageMinos();
   final OperateMino minoOperator = OperateMino(rotate, mobilize, validator);
 
-  FieldController controller = FieldController(
+  IFieldController controller = FieldController(
+    nextMinos: TetroMino.values,
     minoOperator: minoOperator,
-    minosInfo: ,
+    manageMinos: manageMinos,
   );
 
   setUp(() {
-    Minos minosInfo = Minos(nextMinos: [
-      TetroMino.S,
-      TetroMino.Z,
-      TetroMino.L,
-      TetroMino.J,
-      TetroMino.O,
-      TetroMino.I,
-    ]);
     controller = FieldController(
+      nextMinos: TetroMino.values,
       minoOperator: minoOperator,
-    )
-      ..minosInfo = minosInfo
-      ..operatingMino = Mino(TetroMino.T);
+      manageMinos: manageMinos,
+    );
   });
 
-  group('Hold:', () {
-    test('You can hold', () {
-      expect(controller.minosInfo.canHold, true);
-    });
+  test('Hold', () {
+    controller
+      ..lockDownMargin = 0
+      ..lockDownMarginRemain = 0
+      ..hold();
 
-    test('Hold onece', () {
-      controller.hold();
-
-      expect(
-        controller.minosInfo.canHold,
-        false,
-        reason: ': Can\'t hold after hold',
-      );
-      expect(
-        controller.minosInfo.holdedMino,
-        TetroMino.T,
-        reason: ': Holded mino is previous operated mino',
-      );
-      expect(
-        controller.operatingMino.type,
-        TetroMino.S,
-        reason: ': Operating mino is first of next minos',
-      );
-      expect(
-        controller.minosInfo.nextMinos,
-        [
-          TetroMino.Z,
-          TetroMino.L,
-          TetroMino.J,
-          TetroMino.O,
-          TetroMino.I,
-        ],
-        reason: ': Next minos what after hold',
-      );
-    });
-
-    test('Hold twice', () {
-      controller..hold();
-
-      expect(
-        controller.minosInfo.canHold,
-        false,
-        reason: ': Can\'t hold after hold',
-      );
-
-      controller..hold();
-
-      expect(
-        controller.minosInfo.holdedMino,
-        TetroMino.T,
-        reason: ': Holded mino is still holded at first',
-      );
-      expect(
-        controller.operatingMino.type,
-        TetroMino.S,
-        reason: ': Operating mino is first of next minos',
-      );
-      expect(
-        controller.minosInfo.nextMinos,
-        [
-          TetroMino.Z,
-          TetroMino.L,
-          TetroMino.J,
-          TetroMino.O,
-          TetroMino.I,
-        ],
-        reason: ': Next minos what after hold',
-      );
-    });
+    expect(controller.minosInfo.canHold, false);
+    expect(controller.minosInfo.holdedMino, TetroMino.T);
+    expect(controller.minosInfo.operatingMino.type, TetroMino.S);
+    expect(controller.minosInfo.nextMinos.length, 12);
+    expect(controller.lockDownMargin, 500);
+    expect(controller.lockDownMarginRemain, 15);
   });
 
   group('Put:', () {
     test('Put a mino', () {
-      controller.putMino();
+      controller.put();
 
       expect(
         controller.placedBlocks.map((b) => b.cordinate),
@@ -129,8 +68,7 @@ void main() {
           Cordinate(5, 19),
         ],
       );
-      expect(controller.operatingMino.type, TetroMino.S);
-      expect(controller.minosInfo.canHold, true);
+      expect(controller.minosInfo.operatingMino.type, TetroMino.S);
       expect(
         controller.minosInfo.nextMinos,
         [
@@ -154,41 +92,39 @@ void main() {
         Block(x: 9, y: 0, color: Colors.grey),
       ];
       controller.move(MoveDirection.Up);
-      controller.putMino();
 
       expect(
-        controller.placedBlocks,
-        [
-          Block(x: 4, y: 0, color: Colors.grey),
-        ],
+        controller.placedBlocks.map((b) => b.cordinate),
+        [Cordinate(4, 0)],
       );
     });
   });
 
   group('Tick:', () {
     test('onTick', () {
-      controller.onTick();
+      controller.onTick(0);
 
       expect(
-        controller.operatingMino.cornerCordinate,
+        controller.minosInfo.operatingMino.cornerCordinate,
         Cordinate(3, 19),
       );
     });
 
     test('onTick when mino is touching on floor', () {
-      for (int i = 0; i < FIELD_HEIGHT; i++) controller.onTick();
+      for (int i = 0; i < FIELD_HEIGHT; i++) controller.onTick(0);
 
       expect(
-        controller.operatingMino.cornerCordinate,
-        Cordinate(3, 1),
+        controller.minosInfo.operatingMino.blocks.map((b) => b.cordinate),
+        [
+          Cordinate(4, 1),
+          Cordinate(3, 0),
+          Cordinate(4, 0),
+          Cordinate(5, 0),
+        ],
       );
 
-      for (int i = 0; i < 5; i++) controller.onTick();
-
-      expect(
-        controller.operatingMino,
-        TetroMino.S,
-      );
+      for (int i = 0; i < 32; i++) controller.onTick(0);
+      expect(controller.minosInfo.operatingMino.type, TetroMino.S);
       expect(
         controller.placedBlocks.map((b) => b.cordinate),
         [
