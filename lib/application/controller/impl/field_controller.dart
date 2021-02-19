@@ -31,8 +31,8 @@ class FieldController implements IFieldController {
   }
 
   void hold() {
+    if (minosInfo.canHold) _resetMargin();
     minosInfo = manageMinos.holdMino(minosInfo);
-    _resetMargin();
   }
 
   void move(MoveDirection direction) {

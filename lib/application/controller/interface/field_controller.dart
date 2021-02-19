@@ -11,12 +11,16 @@ abstract class IFieldController {
 
   List<Block> placedBlocks;
   Minos minosInfo;
+  int lockDownMargin;
+  int lockDownMarginRemain;
 
   IFieldController(
     this.minoOperator,
     this.manageMinos,
     this.minosInfo,
     this.placedBlocks,
+    this.lockDownMargin,
+    this.lockDownMarginRemain,
   );
 
   void hold();
