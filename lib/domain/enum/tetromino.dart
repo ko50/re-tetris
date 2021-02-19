@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:re_tetris/domain/model/block.dart';
-import 'package:re_tetris/domain/model/cordinate.dart';
 
 enum TetroMino { T, S, Z, L, J, O, I }
 

@@ -2,7 +2,6 @@ import 'package:re_tetris/domain/enum/direction.dart';
 import 'package:re_tetris/domain/enum/rotate_pattern.dart';
 import 'package:re_tetris/domain/enum/tetromino.dart';
 import 'package:re_tetris/domain/model/block.dart';
-import 'package:re_tetris/domain/model/cordinate.dart';
 import 'package:re_tetris/domain/model/mino.dart';
 import 'package:re_tetris/domain/service/interface/block_validation.dart';
 import 'package:re_tetris/domain/service/interface/mobilize.dart';
