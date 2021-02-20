@@ -10,11 +10,14 @@ class Hold extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Block> blocks = context.watch<ValueNotifier<List<Block>>>().value;
 
-    return Container(
-      color: Colors.black,
-      child: Center(
-        child: CustomPaint(
-          painter: Painter(blocks),
+    return AspectRatio(
+      aspectRatio: 2 / 3,
+      child: Container(
+        color: Colors.black,
+        child: Center(
+          child: CustomPaint(
+            painter: Painter(blocks),
+          ),
         ),
       ),
     );
