@@ -21,7 +21,7 @@ class SinglePlayPresenter {
   ValueNotifier<List<List<Block>>> nextState = ValueNotifier([]);
 
   IFieldController controller = FieldController(
-    nextMinos: TetroMino.values..shuffle(),
+    nextMinos: List.from(TetroMino.values)..shuffle(),
     manageMinos: ManageMinos(),
     minoOperator: OperateMino(
       Rotate(),
