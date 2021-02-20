@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:re_tetris/constants.dart';
 
 import 'package:re_tetris/domain/model/block.dart';
-import 'package:re_tetris/view/component/mino_displayer.dart';
+import 'package:re_tetris/view/component/displayers/mino_displayer.dart';
 
 class Next extends StatelessWidget {
   List<Widget> _nextMinos(List<List<Block>> minos) {

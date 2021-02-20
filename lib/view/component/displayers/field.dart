@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:re_tetris/domain/model/block.dart';
-import 'package:re_tetris/view/component/painter.dart';
+import 'package:re_tetris/view/component/displayers/painter.dart';
 
 class Field extends StatelessWidget {
   @override

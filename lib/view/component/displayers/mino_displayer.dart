@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+
 import 'package:re_tetris/domain/model/block.dart';
-import 'package:re_tetris/view/component/painter.dart';
+import 'package:re_tetris/view/component/displayers/painter.dart';
 
 class MinoDisplayer extends StatelessWidget {
   final List<Block> blocks;
