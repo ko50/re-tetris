@@ -9,3 +9,5 @@ const Duration GAME_DURATION = Duration(milliseconds: GAME_TICK);
 const int DOWN_SPEED = 500;
 
 const int LOCKDOWN_MARGIN = 500000;
+
+const double GRID_SIZE = 30;
