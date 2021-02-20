@@ -2,23 +2,37 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
+import 'package:re_tetris/application/controller/impl/field_controller.dart';
 import 'package:re_tetris/application/controller/interface/field_controller.dart';
+import 'package:re_tetris/application/usecase/operate_mino.dart';
 import 'package:re_tetris/constants.dart';
 import 'package:re_tetris/domain/enum/direction.dart';
 import 'package:re_tetris/domain/enum/tetromino.dart';
 import 'package:re_tetris/domain/model/block.dart';
 import 'package:re_tetris/domain/model/cordinate.dart';
+import 'package:re_tetris/domain/service/impl/block_validation.dart';
+import 'package:re_tetris/domain/service/impl/manage_minos.dart';
+import 'package:re_tetris/domain/service/impl/mobilize.dart';
+import 'package:re_tetris/domain/service/impl/rotate.dart';
 
 class SinglePlayPresenter {
   ValueNotifier<List<Block>> blocksState = ValueNotifier([]);
   ValueNotifier<List<Block>> holdState = ValueNotifier([]);
   ValueNotifier<List<List<Block>>> nextState = ValueNotifier([]);
 
-  IFieldController controller;
+  IFieldController controller = FieldController(
+    nextMinos: TetroMino.values..shuffle(),
+    manageMinos: ManageMinos(),
+    minoOperator: OperateMino(
+      Rotate(),
+      Mobilize(),
+      BlockValidation(),
+    ),
+  );
 
   late Timer timer;
 
-  SinglePlayPresenter(this.controller) {
+  SinglePlayPresenter() {
     holdState.value = _tetroMinoToBlock(controller.minosInfo.holdedMino);
     nextState.value = controller.minosInfo.nextMinos
         .map((mino) => _tetroMinoToBlock(mino))

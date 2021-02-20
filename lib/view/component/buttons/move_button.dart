@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:re_tetris/application/controller/impl/field_controller.dart';
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:re_tetris/domain/enum/direction.dart';
+import 'package:re_tetris/providers.dart';
+import 'package:re_tetris/view/presenter/single_play.dart';
 
 class MoveButton extends StatelessWidget {
   final MoveDirection direction;
@@ -52,11 +55,15 @@ class MoveButton extends StatelessWidget {
         type: MaterialType.circle,
         color: Colors.grey[900],
         child: GestureDetector(
-          onTap: () => context.read<FieldController>().move(direction),
+          onTap: () => context
+              .read<SinglePlayPresenter>(singlePlayPresenter)
+              .move(direction),
           onLongPress: () async {
             await Future.delayed(
               Duration(milliseconds: 100),
-              () => context.read<FieldController>().move(direction),
+              () => context
+                  .read<SinglePlayPresenter>(singlePlayPresenter)
+                  .move(direction),
             );
           },
           child: Icon(

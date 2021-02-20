@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
-import 'package:provider/provider.dart';
-import 'package:re_tetris/constants.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:re_tetris/constants.dart';
 import 'package:re_tetris/domain/model/block.dart';
+import 'package:re_tetris/providers.dart';
 import 'package:re_tetris/view/component/displayers/mino_displayer.dart';
 
 class Next extends StatelessWidget {
@@ -23,9 +24,11 @@ class Next extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<List<Block>> minos =
-        context.watch<ValueNotifier<List<List<Block>>>>().value;
-
-    return Container(child: Column(children: _nextMinos(minos)));
+    return Container(
+        child: Consumer(
+      builder: (_, watch, __) => Column(
+        children: _nextMinos(watch(nextState).value),
+      ),
+    ));
   }
 }
