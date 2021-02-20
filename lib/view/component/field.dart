@@ -8,9 +8,11 @@ import 'package:re_tetris/view/component/painter.dart';
 class Field extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    List<Block> blocks = context.read<ValueNotifier<List<Block>>>().value;
+
     return AspectRatio(
       aspectRatio: 1 / 2,
-      child: CustomPaint(painter: Painter(context.read<List<Block>>())),
+      child: CustomPaint(painter: Painter(blocks)),
     );
   }
 }
