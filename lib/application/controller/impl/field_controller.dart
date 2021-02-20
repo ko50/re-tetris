@@ -45,9 +45,7 @@ class FieldController implements IFieldController {
 
     Cordinate moved = Cordinate.from(minosInfo.operatingMino.cornerCordinate);
 
-    if (moved.y < before.y)
-      _resetMargin();
-    else if (moved != before) {
+    if (moved.y < before.y) {
       lockDownMargin = LOCKDOWN_MARGIN;
       lockDownMarginRemain -= 1;
     }
@@ -66,16 +64,14 @@ class FieldController implements IFieldController {
 
     Cordinate moved = Cordinate.from(minosInfo.operatingMino.cornerCordinate);
 
-    if (moved.y < before.y)
-      _resetMargin();
-    else if (moved != before) {
+    if (moved.y < before.y) {
       lockDownMargin = LOCKDOWN_MARGIN;
       lockDownMarginRemain -= 1;
     }
   }
 
   void onTick(int tick) {
-    lockDownMargin -= GAME_TICK;
+    lockDownMargin -= tick;
 
     if (tick % DOWN_SPEED == 0) {
       Cordinate before =
@@ -90,7 +86,8 @@ class FieldController implements IFieldController {
       Cordinate moved = Cordinate.from(minosInfo.operatingMino.cornerCordinate);
 
       if (moved.y < before.y) {
-        _resetMargin();
+        lockDownMargin = LOCKDOWN_MARGIN;
+        lockDownMarginRemain -= 1;
       } else if (lockDownMargin <= 0) {
         put();
       }

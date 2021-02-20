@@ -8,32 +8,32 @@ import 'package:re_tetris/view/component/displayers/field.dart';
 import 'package:re_tetris/view/component/displayers/hold.dart';
 import 'package:re_tetris/view/component/displayers/next.dart';
 
-class Play extends StatelessWidget {
+class SinglePlay extends StatelessWidget {
   Widget _displayers() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Flexible(flex: 1, child: Hold()),
-        Flexible(flex: 2, child: Field()),
-        Flexible(flex: 1, child: Next()),
-      ],
-    );
+    return Padding(
+        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 30),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Flexible(flex: 1, child: Hold()),
+            Flexible(flex: 2, child: Field()),
+            Flexible(flex: 1, child: Next()),
+          ],
+        ));
   }
 
   Widget _buttons() {
-    return Expanded(
-      child: Container(
-        child: Row(
-          children: [
-            MoveButton.united(),
-            Stack(
-              children: [
-                Positioned(left: 1.0, child: RotateButton.united()),
-                Positioned(bottom: 1.0, right: 1.0, child: HoldButton()),
-              ],
-            ),
-          ],
-        ),
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          MoveButton.united(),
+          SizedBox(width: 20),
+          RotateButton.united(),
+          HoldButton(),
+        ],
       ),
     );
   }
@@ -41,9 +41,13 @@ class Play extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: Text('Single play')),
       body: ProviderScope(
         child: Column(
-          children: [_displayers(), _buttons()],
+          children: [
+            _displayers(),
+            _buttons(),
+          ],
         ),
       ),
     );

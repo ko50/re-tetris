@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Tetris',
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: Play(),
+      home: SinglePlay(),
     );
   }
 }

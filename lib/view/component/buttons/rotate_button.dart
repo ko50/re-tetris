@@ -11,26 +11,17 @@ class RotateButton extends StatelessWidget {
 
   RotateButton(this.direction);
 
-  static double height = 50;
-  static double width = 50;
-
   static Widget united() => Container(
         width: 110,
         height: 110,
         child: Stack(
           children: [
-            Positioned(
-              top: 1.0,
-              right: 1.0,
-              height: 50,
-              width: 50,
+            Align(
+              alignment: Alignment.topRight,
               child: RotateButton(RotateDirection.Right),
             ),
-            Positioned(
-              bottom: 1.0,
-              left: 1.0,
-              height: 50,
-              width: 50,
+            Align(
+              alignment: Alignment.bottomLeft,
               child: RotateButton(RotateDirection.Left),
             ),
           ],
@@ -39,8 +30,9 @@ class RotateButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RotatedBox(
-      quarterTurns: direction.index,
+    return Container(
+      height: 50,
+      width: 50,
       child: Material(
         type: MaterialType.circle,
         color: Colors.grey[900],

@@ -31,6 +31,7 @@ class ManageMinos implements IManageMinos {
     modified.operatingMino = Mino(modified.nextMinos[0]);
     modified.nextMinos.removeAt(0);
 
+    modified = supplyNextMinos(modified);
     modified.canHold = true;
 
     return modified;

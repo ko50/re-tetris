@@ -5,19 +5,21 @@ import 'package:re_tetris/view/component/displayers/painter.dart';
 
 class MinoDisplayer extends StatelessWidget {
   final List<Block> blocks;
+  final double blockSize;
 
-  MinoDisplayer(this.blocks);
+  MinoDisplayer(this.blocks, this.blockSize);
 
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
-      aspectRatio: 2 / 3,
+      aspectRatio: 3 / 2,
       child: Container(
+        height: blockSize * 2,
+        width: blockSize * 3,
+        padding: EdgeInsets.all(blockSize * 0.8),
         color: Colors.black,
-        child: Center(
-          child: CustomPaint(
-            painter: Painter(blocks),
-          ),
+        child: CustomPaint(
+          painter: Painter(blocks, 3, blockSize),
         ),
       ),
     );

@@ -33,6 +33,7 @@ class SinglePlayPresenter {
   late Timer timer;
 
   SinglePlayPresenter() {
+    blocksState.value = _assignAllBlocks();
     holdState.value = _tetroMinoToBlock(controller.minosInfo.holdedMino);
     nextState.value = controller.minosInfo.nextMinos
         .map((mino) => _tetroMinoToBlock(mino))
@@ -40,6 +41,7 @@ class SinglePlayPresenter {
 
     timer = Timer.periodic(GAME_DURATION, (timer) {
       controller.onTick(timer.tick * 100);
+      blocksState.value = _assignAllBlocks();
       nextState.value = controller.minosInfo.nextMinos
           .map((mino) => _tetroMinoToBlock(mino))
           .toList();
@@ -55,7 +57,7 @@ class SinglePlayPresenter {
       blocks.add(
         Block(
           x: block.cordinate.x - 3,
-          y: block.cordinate.y - 19,
+          y: block.cordinate.y - 17,
           color: block.color,
         ),
       );

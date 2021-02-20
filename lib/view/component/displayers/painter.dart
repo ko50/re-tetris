@@ -1,11 +1,19 @@
 import 'package:flutter/cupertino.dart';
-import 'package:re_tetris/constants.dart';
+
 import 'package:re_tetris/domain/model/block.dart';
 
 class Painter extends CustomPainter {
   List<Block> blocks;
+  int height;
+  double blockSize;
+  bool ignoreTopLine;
 
-  Painter(this.blocks);
+  Painter(
+    this.blocks,
+    this.height,
+    this.blockSize, {
+    this.ignoreTopLine = false,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -18,10 +26,11 @@ class Painter extends CustomPainter {
 
       canvas.drawRect(
         Rect.fromLTWH(
-          GRID_SIZE * block.cordinate.x,
-          GRID_SIZE * block.cordinate.y,
-          GRID_SIZE,
-          GRID_SIZE,
+          blockSize * block.cordinate.x,
+          blockSize *
+              ((block.cordinate.y - height).abs() - (ignoreTopLine ? 1 : 0)),
+          blockSize,
+          blockSize,
         ),
         paint,
       );

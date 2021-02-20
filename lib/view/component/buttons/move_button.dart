@@ -11,36 +11,25 @@ class MoveButton extends StatelessWidget {
 
   MoveButton(this.direction);
 
-  static double height = 50;
-  static double width = 50;
-
   static Widget united() => Container(
-        width: 110,
-        height: 110,
+        width: 130,
+        height: 130,
         child: Stack(
           children: [
-            Positioned(
-              left: 1.0,
-              height: 50,
-              width: 50,
+            Align(
+              alignment: Alignment.centerLeft,
               child: MoveButton(MoveDirection.Left),
             ),
-            Positioned(
-              top: 1.0,
-              height: 50,
-              width: 50,
+            Align(
+              alignment: Alignment.topCenter,
               child: MoveButton(MoveDirection.Up),
             ),
-            Positioned(
-              right: 1.0,
-              height: 50,
-              width: 50,
+            Align(
+              alignment: Alignment.centerRight,
               child: MoveButton(MoveDirection.Right),
             ),
-            Positioned(
-              bottom: 1.0,
-              height: 50,
-              width: 50,
+            Align(
+              alignment: Alignment.bottomCenter,
               child: MoveButton(MoveDirection.Down),
             ),
           ],
@@ -51,24 +40,28 @@ class MoveButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return RotatedBox(
       quarterTurns: direction.index,
-      child: Material(
-        type: MaterialType.circle,
-        color: Colors.grey[900],
-        child: GestureDetector(
-          onTap: () => context
-              .read<SinglePlayPresenter>(singlePlayPresenter)
-              .move(direction),
-          onLongPress: () async {
-            await Future.delayed(
-              Duration(milliseconds: 100),
-              () => context
-                  .read<SinglePlayPresenter>(singlePlayPresenter)
-                  .move(direction),
-            );
-          },
-          child: Icon(
-            Icons.keyboard_arrow_left,
-            color: Colors.white,
+      child: Container(
+        height: 50,
+        width: 50,
+        child: Material(
+          type: MaterialType.circle,
+          color: Colors.grey[900],
+          child: GestureDetector(
+            onTap: () => context
+                .read<SinglePlayPresenter>(singlePlayPresenter)
+                .move(direction),
+            onLongPress: () async {
+              await Future.delayed(
+                Duration(milliseconds: 100),
+                () => context
+                    .read<SinglePlayPresenter>(singlePlayPresenter)
+                    .move(direction),
+              );
+            },
+            child: Icon(
+              Icons.keyboard_arrow_left,
+              color: Colors.white,
+            ),
           ),
         ),
       ),

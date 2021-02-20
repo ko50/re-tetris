@@ -4,7 +4,7 @@ enum Direction { North, East, South, West }
 
 enum RotateDirection { Right, Left }
 
-enum MoveDirection { Up, Right, Down, Left }
+enum MoveDirection { Left, Up, Right, Down }
 
 extension Pattern on Direction {
   RotatePattern rotatePattern(RotateDirection direction) {
