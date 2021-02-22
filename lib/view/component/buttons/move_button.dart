@@ -6,14 +6,14 @@ import 'package:re_tetris/domain/enum/direction.dart';
 import 'package:re_tetris/providers.dart';
 import 'package:re_tetris/view/presenter/single_play.dart';
 
-class MoveButton extends StatelessWidget {
+class MoveButton extends StatefulWidget {
   final MoveDirection direction;
 
   MoveButton(this.direction);
 
   static Widget united() => Container(
-        width: 130,
-        height: 130,
+        width: 180,
+        height: 180,
         child: Stack(
           children: [
             Align(
@@ -37,27 +37,38 @@ class MoveButton extends StatelessWidget {
       );
 
   @override
+  _MoveButtonState createState() => _MoveButtonState();
+}
+
+class _MoveButtonState extends State<MoveButton> {
+  bool _pressed = false;
+
+  @override
   Widget build(BuildContext context) {
     return RotatedBox(
-      quarterTurns: direction.index,
+      quarterTurns: widget.direction.index,
       child: Container(
-        height: 50,
-        width: 50,
+        height: 70,
+        width: 70,
         child: Material(
           type: MaterialType.circle,
           color: Colors.grey[900],
           child: GestureDetector(
+            behavior: HitTestBehavior.opaque,
             onTap: () => context
                 .read<SinglePlayPresenter>(singlePlayPresenter)
-                .move(direction),
+                .move(widget.direction),
             onLongPress: () async {
-              await Future.delayed(
-                Duration(milliseconds: 100),
-                () => context
-                    .read<SinglePlayPresenter>(singlePlayPresenter)
-                    .move(direction),
-              );
+              while (_pressed && widget.direction != MoveDirection.Up)
+                await Future.delayed(
+                  Duration(milliseconds: 150),
+                  () => context
+                      .read<SinglePlayPresenter>(singlePlayPresenter)
+                      .move(widget.direction),
+                );
             },
+            onLongPressStart: (_) => _pressed = true,
+            onLongPressEnd: (_) => _pressed = false,
             child: Icon(
               Icons.keyboard_arrow_left,
               color: Colors.white,

@@ -9,12 +9,13 @@ class HoldButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 40,
-      width: 50,
+      height: 50,
+      width: 60,
       child: Material(
         type: MaterialType.card,
         color: Colors.grey[900],
         child: GestureDetector(
+          behavior: HitTestBehavior.opaque,
           onTap: () =>
               context.read<SinglePlayPresenter>(singlePlayPresenter).hold(),
           child: Icon(
