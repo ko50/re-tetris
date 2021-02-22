@@ -20,8 +20,5 @@ class Mino {
         ),
         this.direction = mino.direction,
         this.type = mino.type,
-        this.cornerCordinate = Cordinate(
-          mino.cornerCordinate.x,
-          mino.cornerCordinate.y,
-        );
+        this.cornerCordinate = Cordinate.from(mino.cornerCordinate);
 }

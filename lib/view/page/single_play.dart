@@ -24,15 +24,20 @@ class SinglePlay extends StatelessWidget {
 
   Widget _buttons() {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           MoveButton.united(),
           SizedBox(width: 20),
-          RotateButton.united(),
-          HoldButton(),
+          Stack(
+            alignment: Alignment.center,
+            children: [
+              RotateButton.united(),
+              Positioned(right: 0.0, bottom: 0.0, child: HoldButton()),
+            ],
+          ),
         ],
       ),
     );

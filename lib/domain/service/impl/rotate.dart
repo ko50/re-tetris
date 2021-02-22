@@ -8,40 +8,24 @@ import 'package:re_tetris/domain/model/mino.dart';
 import 'package:re_tetris/domain/service/interface/rotate.dart';
 
 class Rotate implements IRotate {
-  List<List<int>> rotate(List<List<int>> placement, RotateDirection direction) {
-    /*
-    (Mino mino, RotateDirection direction) {
-    final Mino rotatedMino = Mino.from(mino);
-    final List<List<int>> placement = direction == RotateDirection.Left
-        ? convertBlocks(mino)
-        : convertBlocks(mino).reversed.toList();
-  */
+  List<List<int>> rotatePlacement(List<List<int>> placement) {
     final List<List<int>> rotatedPlacement = [];
 
     List<int> column;
     for (int i = 0; i < placement.length; i++) {
       column = [];
-      (direction == RotateDirection.Right ? placement.reversed : placement)
-          .forEach((row) => column.add(row[i]));
+      placement.reversed.forEach((row) => column.add(row[i]));
 
       rotatedPlacement.add(column);
     }
 
     return rotatedPlacement;
-    /*
-      rotatedMino
-        ..direction = _changeDirection(mino.direction, direction)
-        ..blocks = convertPlacement(
-          rotatedPlacement,
-          mino.type.color,
-          mino.cornerCordinate,
-      );
-    */
   }
 
   Direction changeDirection(
       Direction current, RotateDirection rotateDirection) {
-    final int i = rotateDirection == RotateDirection.Right ? 1 : -1;
+    final int i = rotateDirection == RotateDirection.Right ? 1 : 3;
+    print(current);
     return Direction.values[(current.index + i) % 4];
   }
 

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:re_tetris/domain/enum/direction.dart';
 import 'package:re_tetris/domain/enum/rotate_pattern.dart';
 import 'package:re_tetris/domain/enum/tetromino.dart';
@@ -53,8 +54,16 @@ class OperateMino {
 
   Mino rotateMino(
       Mino mino, RotateDirection direction, List<Block> placedBlocks) {
-    List<List<int>> placement = rotate.convertBlocks(mino),
-        rotatedPlacement = rotate.rotate(placement, direction);
+    final List<List<int>> placement = rotate.convertBlocks(mino);
+
+    List<List<int>> rotatedPlacement =
+        List.from(placement.map<List<int>>((row) => List.from(row)));
+
+    for (int i = 0; i < 3; i++) {
+      rotatedPlacement = rotate.rotatePlacement(rotatedPlacement);
+      if (direction == RotateDirection.Right) break;
+    }
+
     List<Block> blocks = rotate.convertPlacement(
       rotatedPlacement,
       mino.type.color,
@@ -62,19 +71,40 @@ class OperateMino {
     );
 
     Mino rotatedMino = Mino.from(mino)
-      ..blocks = blocks.map<Block>((b) => Block.from(b)).toList()
-      ..direction = rotate.changeDirection(mino.direction, direction);
+      ..blocks = blocks.map<Block>((b) => Block.from(b)).toList();
+
+    Mino? srsAppliedMino = _applySrs(rotatedMino, direction, placedBlocks);
+
+    rotatedMino.blocks.forEach((element) => print(element.cordinate));
+
+    if (srsAppliedMino != null)
+      return srsAppliedMino
+        ..direction = rotate.changeDirection(mino.direction, direction);
+
+    return mino;
+  }
+
+  Mino? _applySrs(
+      Mino mino, RotateDirection direction, List<Block> placedBlocks) {
+    Mino applied = Mino.from(mino);
+    bool rotationSucceed = false;
 
     mino.direction
         .rotatePattern(direction)
         .srsShiftCandidates(mino.type)
         .forEach((shift) {
-      if (validator.canPutMino(rotatedMino, placedBlocks)) return;
+      if (validator.canPutMino(applied, placedBlocks)) {
+        rotationSucceed = true;
+        return;
+      }
 
-      for (int i = 0; i < blocks.length; i++)
-        rotatedMino.blocks[i] = Block.from(blocks[i])..cordinate += shift;
+      mino.blocks.asMap().forEach(
+          (i, b) => applied.blocks[i] = Block.from(b)..cordinate += shift);
     });
 
-    return rotatedMino;
+    print('Rotate ${mino.type}: $rotationSucceed');
+
+    // If failed to rotate, returns null
+    return rotationSucceed ? applied : null;
   }
 }

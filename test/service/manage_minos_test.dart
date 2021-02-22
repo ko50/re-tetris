@@ -89,6 +89,6 @@ void main() {
     expect(minosInfo.canHold, true);
     expect(minosInfo.holdedMino, null);
     expect(minosInfo.operatingMino.type, TetroMino.S);
-    expect(minosInfo.nextMinos.length, 5);
+    expect(minosInfo.nextMinos.length, 12);
   });
 }

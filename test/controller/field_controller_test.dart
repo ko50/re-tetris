@@ -49,7 +49,7 @@ void main() {
     expect(controller.minosInfo.holdedMino, TetroMino.T);
     expect(controller.minosInfo.operatingMino.type, TetroMino.S);
     expect(controller.minosInfo.nextMinos.length, 12);
-    expect(controller.lockDownMargin, 500);
+    expect(controller.lockDownMargin, LOCKDOWN_MARGIN);
     expect(controller.lockDownMarginRemain, 15);
   });
 
@@ -67,16 +67,7 @@ void main() {
         ],
       );
       expect(controller.minosInfo.operatingMino.type, TetroMino.S);
-      expect(
-        controller.minosInfo.nextMinos,
-        [
-          TetroMino.Z,
-          TetroMino.L,
-          TetroMino.J,
-          TetroMino.O,
-          TetroMino.I,
-        ],
-      );
+      expect(controller.minosInfo.nextMinos.length, 12);
     });
 
     test('Clear a line', () {
@@ -121,7 +112,7 @@ void main() {
         ],
       );
 
-      for (int i = 0; i < 32; i++) controller.onTick(0);
+      for (int i = 0; i < 5; i++) controller.onTick(50000);
       expect(controller.minosInfo.operatingMino.type, TetroMino.S);
       expect(
         controller.placedBlocks.map((b) => b.cordinate),

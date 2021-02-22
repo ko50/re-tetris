@@ -131,6 +131,25 @@ void main() {
       );
     });
 
+    test('Rotate to left', () {
+      mino = Mino(TetroMino.Z);
+      operatedMino = operateMino.rotateMino(
+        mino,
+        RotateDirection.Left,
+        placedBlocks,
+      );
+
+      expect(
+        operatedMino.blocks.map((b) => b.cordinate),
+        [
+          Cordinate(4, 20),
+          Cordinate(3, 19),
+          Cordinate(4, 19),
+          Cordinate(3, 18),
+        ],
+      );
+    });
+
     test('Apply srs', () {
       mino
         ..blocks = [
@@ -142,6 +161,11 @@ void main() {
         ..cornerCordinate = Cordinate(0, 4);
       operatedMino = operateMino.rotateMino(
         mino,
+        RotateDirection.Right,
+        placedBlocks,
+      );
+      operatedMino = operateMino.rotateMino(
+        operatedMino,
         RotateDirection.Right,
         placedBlocks,
       );

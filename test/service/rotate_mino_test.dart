@@ -20,10 +20,7 @@ void main() {
 
   group('Convert data:', () {
     convertedPlacement = rotate.convertBlocks(tMino);
-    rotatedPlacement = rotate.rotate(
-      convertedPlacement,
-      RotateDirection.Right,
-    );
+    rotatedPlacement = rotate.rotatePlacement(convertedPlacement);
 
     test('Convert blocks to placement', () {
       expect(
@@ -76,10 +73,7 @@ void main() {
 
   group('Rotate minos to right:', () {
     test('Rotate I mino', () {
-      rotatedPlacement = rotate.rotate(
-        rotate.convertBlocks(iMino),
-        RotateDirection.Right,
-      );
+      rotatedPlacement = rotate.rotatePlacement(rotate.convertBlocks(iMino));
 
       expect(
         rotatedPlacement,
@@ -93,10 +87,7 @@ void main() {
     });
 
     test('Rotate O mino', () {
-      rotatedPlacement = rotate.rotate(
-        rotate.convertBlocks(oMino),
-        RotateDirection.Right,
-      );
+      rotatedPlacement = rotate.rotatePlacement(rotate.convertBlocks(oMino));
 
       expect(
         rotatedPlacement,
@@ -106,21 +97,5 @@ void main() {
         ],
       );
     });
-  });
-
-  test('Rotate T mino to Left', () {
-    rotatedPlacement = rotate.rotate(
-      rotate.convertBlocks(tMino),
-      RotateDirection.Left,
-    );
-
-    expect(
-      rotatedPlacement,
-      [
-        [0, 1, 0],
-        [1, 1, 0],
-        [0, 1, 0],
-      ],
-    );
   });
 }

@@ -76,10 +76,14 @@ class SinglePlayPresenter {
     for (int y = 0; y < FIELD_HEIGHT; y++) {
       for (int x = 0; x < FIELD_WIDTH; x++) {
         filled.add(
-          blocks.firstWhere(
-            (b) => b.cordinate == Cordinate(x, y),
-            orElse: () => Block(x: x, y: y, color: Colors.black),
-          ),
+          blocks
+              .where(
+                (b) => b.cordinate.y <= FIELD_HEIGHT,
+              )
+              .firstWhere(
+                (b) => b.cordinate == Cordinate(x, y),
+                orElse: () => Block(x: x, y: y, color: Colors.black),
+              ),
         );
       }
     }

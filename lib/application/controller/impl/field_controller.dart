@@ -64,7 +64,7 @@ class FieldController implements IFieldController {
 
     Cordinate moved = Cordinate.from(minosInfo.operatingMino.cornerCordinate);
 
-    if (moved.y < before.y) {
+    if (moved != before) {
       lockDownMargin = LOCKDOWN_MARGIN;
       lockDownMarginRemain -= 1;
     }
@@ -85,7 +85,7 @@ class FieldController implements IFieldController {
 
       Cordinate moved = Cordinate.from(minosInfo.operatingMino.cornerCordinate);
 
-      if (moved.y < before.y) {
+      if (moved != before) {
         lockDownMargin = LOCKDOWN_MARGIN;
         lockDownMarginRemain -= 1;
       } else if (lockDownMargin <= 0) {

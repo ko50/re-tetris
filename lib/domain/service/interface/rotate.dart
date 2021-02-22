@@ -6,7 +6,7 @@ import 'package:re_tetris/domain/model/cordinate.dart';
 import 'package:re_tetris/domain/model/mino.dart';
 
 abstract class IRotate {
-  List<List<int>> rotate(List<List<int>> placement, RotateDirection direction);
+  List<List<int>> rotatePlacement(List<List<int>> placement);
 
   Direction changeDirection(Direction current, RotateDirection direction);
 

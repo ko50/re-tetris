@@ -8,7 +8,7 @@ enum MoveDirection { Left, Up, Right, Down }
 
 extension Pattern on Direction {
   RotatePattern rotatePattern(RotateDirection direction) {
-    if (direction == RotateDirection.Right)
+    if (direction == RotateDirection.Right) {
       switch (this) {
         case Direction.North:
           return RotatePattern.NtoE;
@@ -19,6 +19,7 @@ extension Pattern on Direction {
         case Direction.West:
           return RotatePattern.WtoN;
       }
+    }
 
     switch (this) {
       case Direction.North:
